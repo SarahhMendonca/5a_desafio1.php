@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de acessos</title>
+</head>
+<body>
+    <h1>Gerenciador de acessos</h1>
+    
+    <form action="" method="post">
+        <label for="nome">Informe o nome:</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <br>
+
+        <label for="nascimento">Data de nascimento:</label>
+       
+        <input type="date" id="nascimento" name="nascimento" required>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+       
+        $nome = htmlspecialchars($_POST['nome']);
+        $nascimentoInput = $_POST['nascimento'];
+
+       
+        $nascimento = new DateTime($nascimentoInput);
+        $hoje = new DateTime();
+        $idade = $hoje->diff($nascimento)->y;
+
+    
+        if ($idade >= 18) {
+            echo "<p style='color: green;'>Acesso permitido, $nome!</p>";
+
+            // 4. Salvar log no arquivo (apenas se for maior de 18 anos)
+            $dataAtual = date('d/m/Y H:i:s');
+            $linhaLog = "[$dataAtual] Nome: $nome | Idade: $idade anos" . PHP_EOL;
+
+            file_put_contents('log_acessos.txt', $linhaLog, FILE_APPEND);
+        } else {
+            echo "<p style='color: red;'>Acesso negado, $nome!</p>";
+        }
+    }
+    ?>
+</body>
+</html>
