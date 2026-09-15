@@ -28,3 +28,5 @@ Um projeto simples em PHP e HTML5 desenvolvido como exercício de fixação. O s
    $nascimento = new DateTime($_POST['nascimento']);
    $hoje = new DateTime();
    $idade = $hoje->diff($nascimento)->y;
+
+   Acesse em: http://localhost/cadastros/5a_desafio1.php
